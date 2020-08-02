@@ -1,5 +1,8 @@
 # How to build an Arduino midi with 8x8 LED Matrix
 
+![alt text](https://gitlab.com/Snekussaurier/arduino-midi-with-8x8-led-matrix/-/raw/master/Render.png)
+
+
 **Parts list:**
 -   1x Arduino Mega 2560
 -   1x Arduino Uno
@@ -12,5 +15,3 @@
 -   Silverwire
 -   1x Acrylglas
 -   1x Adafruit Music Maker Shield
-
-![alt text](https://github.com/Snekussaurier/arduino-midi-with-8x8-led-matrix/blob/master/Render.png?raw=true)
