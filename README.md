@@ -1,4 +1,4 @@
-# How to buils an Arduino midi with 8x8 LED Matrix
+# How to build an Arduino midi with 8x8 LED Matrix
 
 **Parts list:**
 -   1x Arduino Mega 2560
