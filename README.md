@@ -1,6 +1,6 @@
 # How to build an Arduino midi with 8x8 LED Matrix
 
-![alt text](https://gitlab.com/Snekussaurier/arduino-midi-with-8x8-led-matrix/-/raw/master/Render.png)
+![alt text](https://gitlab.com/Snekussaurier/arduino-midi-with-8x8-led-matrix/-/raw/master/images/Render.png)
 
 
 **Parts list:**
