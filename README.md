@@ -12,3 +12,5 @@
 -   Silverwire
 -   1x Acrylglas
 -   1x Adafruit Music Maker Shield
+
+![alt text](https://github.com/Snekussaurier/[reponame]/blob/master/image.jpg?raw=true)
