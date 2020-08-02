@@ -13,4 +13,4 @@
 -   1x Acrylglas
 -   1x Adafruit Music Maker Shield
 
-![alt text](https://github.com/Snekussaurier/[reponame]/blob/master/image.jpg?raw=true)
+![alt text](https://github.com/Snekussaurier/arduino-midi-with-8x8-led-matrix/blob/master/Render.png?raw=true)
