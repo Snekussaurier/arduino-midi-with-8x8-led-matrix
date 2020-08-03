@@ -9,9 +9,19 @@
 -   3x Tlc 5940N
 -   72x Common Anode RGB LED's
 -   68x Pushbuttons
--   Wires
+-   Wires (a lot of them)
 -   1x Switch potentiometer (B50K)
 -   1x 6mm potentiometer knob
 -   Silverwire
 -   1x Acrylglas
 -   1x Adafruit Music Maker Shield
+-   1x USB Type C Connector
+-   1x Li-ion battery 18650
+-   1x MT3608 2A DC-DC step-up boost module
+-   1x TC5056A 5V 1A
+-   Solder
+
+**Used tools:**
+-   Soldering iron
+-   3D-Printer
+-   Pliers
