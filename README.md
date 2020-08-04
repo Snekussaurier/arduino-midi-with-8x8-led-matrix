@@ -2,6 +2,7 @@
 
 ![alt text](https://gitlab.com/Snekussaurier/arduino-midi-with-8x8-led-matrix/-/raw/master/images/Render.png)
 
+# Parts and tools
 
 **Parts list:**
 -   1x Arduino Mega 2560
