@@ -1,4 +1,4 @@
-//Definitions
+                                   //Definitions
 
 //LED Matrix Setup
 //RED Kathodes
@@ -43,3 +43,28 @@
 #define BstrG 29//defines the "B" (GREEN)string for the tlc5940 -->OUTPUT 13
 #define CstrG 30//defines the "C" (GREEN)string for the tlc5940 -->OUTPUT 14
 #define DstrG 31//defines the "D" (GREEN)string for the tlc5940 -->OUTPUT 15
+
+//BLUE Kathodes LED strip
+#define AstrB 32//defines the "A" (BLUE)string for the tlc5940 -->OUTPUT 0 third TLC5940
+#define BstrB 33//defines the "B" (BLUE)string for the tlc5940 -->OUTPUT 1
+#define CstrB 34//defines the "C" (BLUE)string for the tlc5940 -->OUTPUT 2
+#define DstrB 35//defines the "D" (BLUE)string for the tlc5940 -->OUTPUT 3
+
+//TOP LEDs setup
+//RED Kathodes LED TOP
+#define AtopR 36//defines the "A" (RED)string for the tlc5940 -->OUTPUT 4
+#define BtopR 37//defines the "B" (RED)string for the tlc5940 -->OUTPUT 5
+#define CtopR 38//defines the "C" (RED)string for the tlc5940 -->OUTPUT 6
+#define DtopR 39//defines the "D" (RED)string for the tlc5940 -->OUTPUT 7
+
+//GREEN Kathodes LED TOP
+#define AtopG 40//defines the "A" (GREEN)string for the tlc5940 -->OUTPUT 8
+#define BtopG 41//defines the "B" (GREEN)string for the tlc5940 -->OUTPUT 9
+#define CtopG 42//defines the "C" (GREEN)string for the tlc5940 -->OUTPUT 10
+#define DtopG 43//defines the "D" (GREEN)string for the tlc5940 -->OUTPUT 11
+
+//BLUE Kathodes LED TOP
+#define AtopB 44//defines the "A" (BLUE)string for the tlc5940 -->OUTPUT 12
+#define BtopB 45//defines the "B" (BLUE)string for the tlc5940 -->OUTPUT 13
+#define CtopB 46//defines the "C" (BLUE)string for the tlc5940 -->OUTPUT 14
+#define DtopB 46//defines the "D" (BLUE)string for the tlc5940 -->OUTPUT 15

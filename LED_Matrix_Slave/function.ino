@@ -365,13 +365,19 @@ void MatrixUpdate(int columnno) {
 
 
 void reset() {                // we set all LEDs to 0 brightness
-  for (int i = 0; i < 8; i++) {
+  for (int i = 0; i < 8; i++) { //FOR-Loop for Top Matrix
     for (int j = 0; j < 8; j++) {
       RedLeds[i][j] = 0;
       GreenLeds[i][j] = 0;
       BlueLeds[i][j] = 0;
     }
   }
+
+  for (int i = 0; i < 12; i++) { //FOR-Loop for LED Strip and TOP LED's
+    Tlc.set(24 + i, 0);
+    Tlc.set(36 + i, 0);
+  }
+  Tlc.update();
 }
 
 //sets all LED's to bright
@@ -422,48 +428,28 @@ void RainbowCycle() {
   }
 }
 
+void IsCharging() {
+  for (int i = 0; i < 4; i++) {
+    redLedsStrip[i] = 255;
+    Tlc.set(24 + i, redLedsStrip[i] * 12);
+    greenLedsStrip[i] = 120;
+    Tlc.set(28 + i, greenLedsStrip[i] * 12);
+  }
+  Tlc.update();
+}
+
 //if the Battery is fully charged the LED
 void FullyCharged() {
   for (int i = 0; i < 4; i++) {
-    greenLedsStrip[i] = (120 * (cos(timePassed * PI) + 0.95f)) * 12;
-    if(greenLedsStrip[i] < 0){ greenLedsStrip[i] = 0;}
-    Tlc.set(28 + i, greenLedsStrip[i]); 
+    greenLedsStrip[i] = 120 * (cos(timePassed * PI) + 0.95f);
+    if (greenLedsStrip[i] < 0) {
+      greenLedsStrip[i] = 0;
+    }
+    Tlc.set(28 + i, greenLedsStrip[i] * 12);
   }
   timePassed = timePassed + 0.002f;
   count = 0;
-}
-
-void CheckImageState(){
-  
-  }
-
-//set all leds only red
-void allred() {  //
-  for (int i = 0; i < 8; i++) {
-    for (int j = 0; j < 8; j++) {
-      RedLeds[i][j] = bright;
-
-    }
-  }
-}
-
-//set all leds only green
-void allgreen() {
-  for (int i = 0; i < 8; i++) {
-    for (int j = 0; j < 8; j++) {
-      GreenLeds[i][j] = bright;
-    }
-  }
-}
-
-//set all leds only blue
-void allblue() {
-  for (int i = 0; i < 8; i++) {
-    for (int j = 0; j < 8; j++) {
-      BlueLeds[i][j] = bright;
-
-    }
-  }
+  Tlc.update();
 }
 
 void BlueValueChangeRow(byte value, byte row) {
@@ -485,7 +471,7 @@ void GreenValueChangeRow(byte value, byte row) {
 }
 
 //function to give certain LED's specific Colors
-void mRGB(int r, int g, int b, int row, int column) {
+void mRGB(byte r, byte g, byte b, byte row, byte column) {
   BlueLeds[row][column] = b;
   RedLeds[row][column] = r;
   GreenLeds[row][column] = g;

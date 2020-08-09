@@ -1,13 +1,13 @@
 
 #include "Tlc5940.h"
-#define ColumnOne 14      //Gate of 1.MOSFET which connects to Column "1" (anodes of all Strings in Column "1")
-#define ColumnTwo 15      //Gate of 2.MOSFET which connects to Column "2" (anodes of all StringS in Column "2")
-#define ColumnThree 16    //Gate of 3.MOSFET which connects to Column "3" (anodes of all Strings in Column "3")
-#define ColumnFour 17     //Gate of 4.MOSFET which connects to Column "4" (anodes of all Strings in Column "4")
-#define ColumnFive 18      //Gate of 5.MOSFET which connects to Column "5" (anodes of all Strings in Column "5")
-#define ColumnSix 19      //Gate of 6.MOSFET which connects to Column "6" (anodes of all StringS in Column "6")
-#define ColumnSeven 2    //Gate of 7.MOSFET which connects to Column "7" (anodes of all Strings in Column "7")
-#define ColumnEight 4     //Gate of 8.MOSFET which connects to Column "8" (anodes of all Strings in Column "8")
+#define ColumnOne 18      //Gate of 1.MOSFET which connects to Column "1" (anodes of all Strings in Column "1")
+#define ColumnTwo 19      //Gate of 2.MOSFET which connects to Column "2" (anodes of all StringS in Column "2")
+#define ColumnThree 2    //Gate of 3.MOSFET which connects to Column "3" (anodes of all Strings in Column "3")
+#define ColumnFour 4     //Gate of 4.MOSFET which connects to Column "4" (anodes of all Strings in Column "4")
+#define ColumnFive 14      //Gate of 5.MOSFET which connects to Column "5" (anodes of all Strings in Column "5")
+#define ColumnSix 15      //Gate of 6.MOSFET which connects to Column "6" (anodes of all StringS in Column "6")
+#define ColumnSeven 16    //Gate of 7.MOSFET which connects to Column "7" (anodes of all Strings in Column "7")
+#define ColumnEight 17     //Gate of 8.MOSFET which connects to Column "8" (anodes of all Strings in Column "8")
 
 #define chargingProcessPin 7 //Pin seven is for checking if the board is currently charging
 #define chargingFullPin 6 //Pin six is for checking if the board is fully charge
@@ -53,19 +53,28 @@ void setup()
   pinMode(chargingFullPin, INPUT_PULLUP);
   pinMode(playModePin, INPUT_PULLUP);
 
+  //Initialize the Columns
+  pinMode(ColumnOne, OUTPUT);  // declare arduino nano pin A0(ColumnOne) as OUTPUT
+  pinMode(ColumnTwo, OUTPUT);  // declare arduino nano pin A1(ColumnTwo) as OUTPUT
+  pinMode(ColumnThree, OUTPUT);// declare arduino nano pin A2(ColumnThree) as OUTPUT
+  pinMode(ColumnFour, OUTPUT); // declare arduino nano pin A3(ColumnFour) as OUTPUT
+  pinMode(ColumnFive, OUTPUT);  // declare arduino nano pin A4(ColumnFive) as OUTPUT
+  pinMode(ColumnSix, OUTPUT);  // declare arduino nano pin A5(ColumnSix) as OUTPUT
+  pinMode(ColumnSeven, OUTPUT);// declare arduino nano pin D2(ColumnSeven) as OUTPUT
+  pinMode(ColumnEight, OUTPUT); // declare arduino nano pin D4(ColumnrEight) as OUTPUT
+
+  //Initialize the TLC's
+  Tlc.init();               // configures the arduino to use the tlc5940, be sure to connect the arduino correctly to the tlc
+
+  reset();
+
   //Read the state pins
   chargingStateProcess = digitalRead(chargingProcessPin);
   chargingFullProcess = digitalRead(chargingFullPin);
   playModeProcess = digitalRead(playModePin);
 
   //Check if it should display "charging", "fullyCharged" or "isInPlaymode"
-  if (chargingStateProcess == LOW && chargingFullProcess == HIGH && playModeProcess == HIGH) {
-    imageZustand = 0;
-  }
-  else if (chargingStateProcess == HIGH && chargingFullProcess == LOW && playModeProcess == HIGH) {
-    imageZustand = 1;
-  }
-  else if (playModeProcess == LOW) {
+  if (playModeProcess == LOW) {
     for (int i = 0; i < 8; i++) {
       redValue[i] = i * 34;
     }
@@ -79,19 +88,13 @@ void setup()
     }
     imageZustand = 2;
   }
+  else if (chargingStateProcess == HIGH && chargingFullProcess == LOW && playModeProcess == HIGH) {
+    imageZustand = 1;
+  } else {
+    IsCharging();
+    imageZustand = 0;
+  }
 
-  //Initialize the Columns
-  pinMode(ColumnOne, OUTPUT);  // declare arduino nano pin A0(ColumnOne) as OUTPUT
-  pinMode(ColumnTwo, OUTPUT);  // declare arduino nano pin A1(ColumnTwo) as OUTPUT
-  pinMode(ColumnThree, OUTPUT);// declare arduino nano pin A2(ColumnThree) as OUTPUT
-  pinMode(ColumnFour, OUTPUT); // declare arduino nano pin A3(ColumnFour) as OUTPUT
-  pinMode(ColumnFive, OUTPUT);  // declare arduino nano pin A4(ColumnFive) as OUTPUT
-  pinMode(ColumnSix, OUTPUT);  // declare arduino nano pin A5(ColumnSix) as OUTPUT
-  pinMode(ColumnSeven, OUTPUT);// declare arduino nano pin D2(ColumnSeven) as OUTPUT
-  pinMode(ColumnEight, OUTPUT); // declare arduino nano pin D4(ColumnrEight) as OUTPUT
-
-  //Initialize the TLC's
-  Tlc.init();               // configures the arduino to use the tlc5940, be sure to connect the arduino correctly to the tlc
 }
 
 void loop() {
@@ -99,15 +102,8 @@ void loop() {
     oldMicros = micros() + ColumnDuration;                             // updates oldMicros value by adding the micros() with LayerDuration
     switch (imageZustand) {
       case 0:
-        for (int i = 0; i < 4; i++) {
-          redLedsStrip[i] = 255;
-          Tlc.set(24 + i, redLedsStrip[i] * 12);             // set H1B brightness to HchB OUTPUT(OUTPUT 7);
-        }
-        for (int i = 0; i < 4; i++) {
-          greenLedsStrip[i] = 120;
-          Tlc.set(28 + i, greenLedsStrip[i] * 12);             // set H1B brightness to HchB OUTPUT(OUTPUT 7);
-        }
-
+        Tlc.update();
+        
         chargingStateProcess = digitalRead(chargingProcessPin);
         chargingFullProcess = digitalRead(chargingFullPin);
         playModeProcess = digitalRead(playModePin);
@@ -132,7 +128,6 @@ void loop() {
             BlueValueChangeRow(blueValue[i], i);
             rgbCase[i] = 1;
           }
-
           for (int i = 0; i < 4; i++) {
             redLedsStrip[i] = 0;
             greenLedsStrip[i] = 0;
@@ -179,6 +174,8 @@ void loop() {
         if (count == stretch) {
           RainbowCycle();
         }
+        MatrixUpdate(column);                                                 // sets the values for the tlc5940 Outputs and puts all MOSFET Gates HIGH (not active) except for one MOSFET Low (active) -->this layer is ON, also look under tab "function"
+        column++;                                                           // layer counter +1, so MatrixUpdate(layer) will affect the next layer during the next if() cycle
 
         chargingStateProcess = digitalRead(chargingProcessPin);
         chargingFullProcess = digitalRead(chargingFullPin);
@@ -192,6 +189,7 @@ void loop() {
               GreenLeds[i][j] = 0;
             }
           }
+          IsCharging();
           imageZustand = 0;
         }
         else if (chargingStateProcess == HIGH && chargingFullProcess == LOW && playModeProcess == HIGH) {
@@ -206,14 +204,10 @@ void loop() {
         }
         break;
     }
-
-    MatrixUpdate(column);                                                 // sets the values for the tlc5940 Outputs and puts all MOSFET Gates HIGH (not active) except for one MOSFET Low (active) -->this layer is ON, also look under tab "function"
-    column++;                                                           // layer counter +1, so MatrixUpdate(layer) will affect the next layer during the next if() cycle
     count++;
 
     if (column == 9) {
       column = 1; // we only have 8 columns, so we start with layer 1 again if column counter goes to 9
     }
-
   }
 }
